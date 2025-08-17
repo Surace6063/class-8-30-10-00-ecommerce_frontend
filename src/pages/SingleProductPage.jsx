@@ -1,6 +1,16 @@
-import React, { useState } from "react";
+import { useParams } from "react-router-dom";
+import { useProduct } from "../api/fetchApi";
 
 const SingleProduct = () => {
+
+  const {id} = useParams()
+
+  const {data,isLoading,isError,error} = useProduct(id)
+
+  if(isLoading) return <p>loading...</p>
+  if(isError) return <p>Error: {error.message}</p>
+
+  console.log(data);
  
   return (
     <div className="max-w-7xl mx-auto px-4 py-16 pt-24">
@@ -9,7 +19,7 @@ const SingleProduct = () => {
         {/* Product Image */}
         <div className="p-4 h-[80vh]">
           <img
-            src="https://i.imgur.com/xGQOw3p.jpeg"
+            src={data.image}
             alt="Casual Shirt"
             className="w-full h-full rounded-md object-cover object-center"
           />
@@ -18,16 +28,15 @@ const SingleProduct = () => {
         {/* Product Details */}
         <div>
           <h1 className="text-3xl font-bold text-slate-800">
-            Casual Shirt
+            {data.name}
           </h1>
           <p className="text-lg text-slate-500 mt-2">Clothing</p>
           <p className="text-2xl font-semibold text-slate-800 mt-4">
-            $39.99
+            ${data.price}
           </p>
 
           <p className="mt-6 text-slate-600">
-            This casual shirt is made from premium cotton for ultimate comfort and style. 
-            Perfect for everyday wear or semi-formal occasions.
+            {data.description}
           </p>
 
           {/* Quantity Selector */}

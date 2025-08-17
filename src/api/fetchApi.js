@@ -29,3 +29,18 @@ export const useProducts = (selectedCategory) => {
           })
     )
 }
+
+
+//getting single product
+
+export const useProduct = (id) => {
+    return(
+        useQuery({
+            queryKey: ['product',id],
+            queryFn: async () => {
+              const response = await newRequest.get(`/products/${id}`)
+              return response.data
+            }
+          })
+    )
+}

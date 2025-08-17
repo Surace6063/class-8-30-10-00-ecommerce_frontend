@@ -3,7 +3,8 @@ import { useCategories, useProducts } from "../api/fetchApi";
 import { Link } from "react-router-dom";
 
 const Shop = () => {
-  const [selectedCategory, setSelectedCategory] = useState("");
+const [selectedCategory, setSelectedCategory] = useState("");
+
 
 const {data:categories} = useCategories()
 
@@ -21,7 +22,7 @@ const {data,isLoading,isError,error} = useProducts(selectedCategory)
         >
           <option value="">All</option>
           {categories?.map((cat) => (
-            <option key={cat} value={cat.name}>
+            <option key={cat.id} value={cat.name}>
               {cat.name}
             </option>
           ))}
