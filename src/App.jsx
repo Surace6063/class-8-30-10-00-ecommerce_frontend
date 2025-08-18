@@ -7,10 +7,12 @@ import CartPage from "./pages/CartPage"
 import Register from "./pages/Register"
 import Login from "./pages/Login"
 import Footer from "./components/Footer"
+import { Toaster } from "react-hot-toast"
 
 const App = () => {
   return (
    <>
+   <Toaster />
     <Navbar />
     <Routes>
       <Route path="/" element={<HomePage />} />
