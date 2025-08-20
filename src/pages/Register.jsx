@@ -3,9 +3,13 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { newRequest } from "../utils/newRequest";
 import toast from "react-hot-toast";
+import { yupResolver } from "@hookform/resolvers/yup"
+import { registerFormValidationSchema } from "../utils/validate";
 
 const Register = () => {
-  const {register,handleSubmit} = useForm()
+  const {register,handleSubmit, formState:{errors,isSubmitting}} = useForm({
+    resolver: yupResolver(registerFormValidationSchema)
+  })
 
   const navigate = useNavigate()
 
@@ -16,6 +20,12 @@ const Register = () => {
       navigate('/login')
     } catch (error) {
       console.log(error);
+      if(error.response && error.response.data){
+        console.log(error.response.data);
+        const firstKey = Object.keys(error.response.data)[0]
+        const message = error.response.data[firstKey[0]]
+        toast.error(message)
+      }
     }
   }
   return (
@@ -32,6 +42,7 @@ const Register = () => {
               className="w-full border border-slate-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-500"
               placeholder="John"
             />
+            {errors.first_name && <p className="text-red-600 text-sm mt-1">{errors.first_name.message}</p>}
           </div>
           <div>
             <label className="block text-slate-700">Last Name</label>
@@ -41,6 +52,7 @@ const Register = () => {
               className="w-full border border-slate-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-500"
               placeholder="Doe"
             />
+            {errors.last_name && <p className="text-red-600 text-sm mt-1">{errors.last_name.message}</p>}
           </div>
           <div>
             <label className="block text-slate-700">Email</label>
@@ -50,6 +62,7 @@ const Register = () => {
               className="w-full border border-slate-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-500"
               placeholder="you@example.com"
             />
+            {errors.email && <p className="text-red-600 text-sm mt-1">{errors.email.message}</p>}
           </div>
            <div>
             <label className="block text-slate-700">Username</label>
@@ -60,6 +73,7 @@ const Register = () => {
               placeholder="user.."
             />
           </div>
+          {errors.username && <p className="text-red-600 text-sm mt-1">{errors.username.message}</p>}
           <div>
             <label className="block text-slate-700">Password</label>
             <input
@@ -69,6 +83,7 @@ const Register = () => {
               placeholder="••••••••"
             />
           </div>
+          {errors.password && <p className="text-red-600 text-sm mt-1">{errors.password.message}</p>}
           <div>
             <label className="block text-slate-700">Confirm Password</label>
             <input
@@ -78,11 +93,13 @@ const Register = () => {
               placeholder="••••••••"
             />
           </div>
+          {errors.password2 && <p className="text-red-600 text-sm mt-1">{errors.password2.message}</p>}
           <button
             type="submit"
-            className="w-full bg-slate-800 text-white py-2 rounded hover:bg-slate-700 transition"
+            className="w-full bg-slate-800 disabled:bg-slate-800/80 text-white py-2 rounded hover:bg-slate-700 transition"
+            disabled ={isSubmitting}
           >
-            Register
+            {isSubmitting ? "submitting..." : "Register"}
           </button>
         </form>
         <p className="text-sm text-slate-600 mt-4">
