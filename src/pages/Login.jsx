@@ -1,9 +1,11 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { loginFormValidationSchema } from "../utils/validate";
 import { newRequest } from "../utils/newRequest";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { loginSucess } from "../redux/authSlice";
 
 const Login = () => {
   const {register,handleSubmit, formState:{errors,isSubmitting}} = useForm({
@@ -12,13 +14,29 @@ const Login = () => {
   })
 
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const location = useLocation()
+
+  const from = location.state?.from || '/'
+
+  console.log(from);
 
   const onSubmit = async (data) => {
     try {
       const response = await newRequest.post('/auth/login/',data)
       console.log(response.data);
+      console.log(response.data.role);
+        dispatch(loginSucess(response.data))
+    
+
+      const role = response.data.role?.toLowerCase();
+
+      if (role === "admin") {
+        // safer navigation
+        navigate("/dashboard/main", { replace: true });
+      }
+
       toast.success("User loggedIn successfully.")
-      navigate('/')
     } catch (error) {
       console.log(error);
     }

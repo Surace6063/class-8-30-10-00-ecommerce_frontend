@@ -1,11 +1,23 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Menu, X, ShoppingCart, User } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../redux/authSlice";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const cartCount = 3; 
-  const isAuthenticated = false; 
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const {totalQuantity} = useSelector(state => state.cart)
+  
+  const {isAuthenticated} = useSelector(state => state.auth)
+
+  const handleLogout = () => {
+    dispatch(logout())
+    navigate('/')
+    toast.success("User logout successfully.")
+  }
 
   return (
     <nav className="bg-white shadow-md fixed w-full top-0 z-50">
@@ -46,8 +58,9 @@ const Navbar = () => {
               <>
                 <Link to="/account">
                   <User className="w-6 h-6 text-slate-700 hover:text-slate-900" />
+                  {/* <span>{user?.username}</span> */}
                 </Link>
-                <button className="text-slate-700 hover:text-slate-900">
+                <button onClick={handleLogout} className="text-slate-700 hover:text-slate-900 cursor-pointer">
                   Logout
                 </button>
               </>
@@ -70,9 +83,9 @@ const Navbar = () => {
 
             <Link to="/cart" className="relative">
               <ShoppingCart className="w-6 h-6 text-slate-700 hover:text-slate-900" />
-              {cartCount > 0 && (
+              {totalQuantity > 0 && (
                 <span className="absolute -top-2 -right-2 bg-slate-700 text-white text-xs rounded-full px-1">
-                  {cartCount}
+                  {totalQuantity}
                 </span>
               )}
             </Link>

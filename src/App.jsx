@@ -1,29 +1,53 @@
-import { Route, Routes } from "react-router-dom"
-import Navbar from "./components/Navbar"
-import HomePage from "./pages/HomePage"
-import ShopPage from "./pages/ShopPage"
-import SingleProduct from "./pages/SingleProductPage"
-import CartPage from "./pages/CartPage"
-import Register from "./pages/Register"
-import Login from "./pages/Login"
-import Footer from "./components/Footer"
-import { Toaster } from "react-hot-toast"
+import { Route, Routes } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import HomePage from "./pages/HomePage";
+import ShopPage from "./pages/ShopPage";
+import SingleProduct from "./pages/SingleProductPage";
+import CartPage from "./pages/CartPage";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import Footer from "./components/Footer";
+import { Toaster } from "react-hot-toast";
+import ProtectedRoute from "./utils/ProtectedRoute";
+import AuthRedirect from "./utils/AuthRedirect";
+import UserLayout from "./utils/UserLayout";
+import AdminLayout from "./utils/AdminLayout";
+import Main from "./pages/adminpages/Main";
+import CategoryList from "./pages/adminpages/CategoryList";
+import CategoryForm from "./pages/adminpages/CategoryForm";
 
 const App = () => {
   return (
-   <>
-   <Toaster />
-    <Navbar />
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/shop" element={<ShopPage />} />
-      <Route path="/product/:id" element={<SingleProduct />} />
-      <Route path="/cart" element={<CartPage />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/login" element={<Login />} />
-    </Routes>
-    <Footer />
-   </>
-  )
-}
-export default App
+    <>
+      <Toaster />
+
+      <Routes>
+        {/* user layout */}
+        <Route element={<UserLayout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/shop" element={<ShopPage />} />
+          <Route path="/product/:id" element={<SingleProduct />} />
+
+          {/* auth redirect */}
+          <Route element={<AuthRedirect />}>
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+          </Route>
+
+          {/* protected route */}
+          <Route element={<ProtectedRoute />}>
+            <Route path="/cart" element={<CartPage />} />
+          </Route>
+        </Route>
+
+        {/* admin layout */}
+        <Route path="/dashboard" element={<AdminLayout />}>
+           <Route path="main" element={<Main />} />
+           <Route path="categories/list" element={<CategoryList />} />
+           <Route path="categories/add" element={<CategoryForm />} />
+        </Route>
+      </Routes>
+    </>
+  );
+};
+export default App;
