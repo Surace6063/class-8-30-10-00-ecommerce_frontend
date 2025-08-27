@@ -15,6 +15,8 @@ import AdminLayout from "./utils/AdminLayout";
 import Main from "./pages/adminpages/Main";
 import CategoryList from "./pages/adminpages/CategoryList";
 import CategoryForm from "./pages/adminpages/CategoryForm";
+import ProductList from "./pages/adminpages/ProductList";
+import ProductForm from "./pages/adminpages/ProductForm";
 
 const App = () => {
   return (
@@ -45,6 +47,8 @@ const App = () => {
            <Route path="main" element={<Main />} />
            <Route path="categories/list" element={<CategoryList />} />
            <Route path="categories/add" element={<CategoryForm />} />
+           <Route path="products/list" element={<ProductList />} />
+           <Route path="products/add" element={<ProductForm />} />
         </Route>
       </Routes>
     </>
