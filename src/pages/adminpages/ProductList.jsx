@@ -3,10 +3,13 @@ import { useProducts } from "../../api/fetchApi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { newRequest } from "../../utils/newRequest";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 
 const ProductList = () => {
 const {data:products,isLoading,isError,error} = useProducts()
+
+const navigate = useNavigate()
 
 const queryClient = useQueryClient()
 
@@ -25,6 +28,10 @@ const {mutate} = useMutation({
 
 const handleDelete = (id) => {
     mutate(id)
+}
+
+const handleEdit = (p) => {
+   navigate('/dashboard/products/update',{state:{product:p}})
 }
 
 
@@ -78,7 +85,7 @@ const handleDelete = (id) => {
               <td className="px-6 py-3 text-slate-700">
                 <div className="flex gap-4 items-center">
                     <button
-                  
+                    onClick={()=>handleEdit(p)}
                   className="text-sky-600 hover:text-sky-800 flex items-center gap-1 cursor-pointer"
                 >
                   <Edit className="w-4 h-4" /> Edit

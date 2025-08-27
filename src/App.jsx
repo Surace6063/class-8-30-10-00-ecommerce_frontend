@@ -17,6 +17,7 @@ import CategoryList from "./pages/adminpages/CategoryList";
 import CategoryForm from "./pages/adminpages/CategoryForm";
 import ProductList from "./pages/adminpages/ProductList";
 import ProductForm from "./pages/adminpages/ProductForm";
+import UpdateProductForm from "./pages/adminpages/UpdateProductForm";
 
 const App = () => {
   return (
@@ -49,6 +50,7 @@ const App = () => {
            <Route path="categories/add" element={<CategoryForm />} />
            <Route path="products/list" element={<ProductList />} />
            <Route path="products/add" element={<ProductForm />} />
+           <Route path="products/update" element={<UpdateProductForm />} />
         </Route>
       </Routes>
     </>
