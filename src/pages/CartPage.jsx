@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { decreaseCartItem, increaseCartItem, removeFromCart } from "../redux/cartSlice";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const CartPage = () => {
   const { items, totalPrice } = useSelector((state) => state.cart);
@@ -74,9 +75,11 @@ const CartPage = () => {
             <span className="text-lg font-bold text-slate-800">Total</span>
             <span className="text-lg font-bold text-slate-800">${totalPrice}</span>
           </div>
-          <button className="w-full bg-slate-800 text-white py-3 rounded hover:bg-slate-700 transition">
+          <Link to='/checkout'>
+            <button className="w-full bg-slate-800 text-white py-3 rounded hover:bg-slate-700 transition">
             Checkout
           </button>
+          </Link>
         </div>
       </div>
     </div>

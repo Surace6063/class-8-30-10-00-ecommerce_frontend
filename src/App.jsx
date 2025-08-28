@@ -18,6 +18,7 @@ import CategoryForm from "./pages/adminpages/CategoryForm";
 import ProductList from "./pages/adminpages/ProductList";
 import ProductForm from "./pages/adminpages/ProductForm";
 import UpdateProductForm from "./pages/adminpages/UpdateProductForm";
+import CheckOutForm from "./pages/CheckOutForm";
 
 const App = () => {
   return (
@@ -41,6 +42,7 @@ const App = () => {
           <Route element={<ProtectedRoute />}>
             <Route path="/cart" element={<CartPage />} />
           </Route>
+          <Route path="/checkout" element={<CheckOutForm />} />
         </Route>
 
         {/* admin layout */}

@@ -9,11 +9,14 @@ import toast from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const UpdateProductForm = () => {
-  const [preview, setPreview] = useState(null);
+
+   const location = useLocation()
+  const product = location?.state?.product
+
+  const [preview, setPreview] = useState(product?.image || null);
   const [file,setFile] = useState(null)
 
-  const location = useLocation()
-  const product = location?.state?.product
+ 
 
   const navigate = useNavigate()
 
