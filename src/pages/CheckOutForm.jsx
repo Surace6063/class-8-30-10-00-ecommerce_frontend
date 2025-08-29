@@ -1,25 +1,49 @@
-import { useForm } from "react-hook-form"
-import { useSelector } from "react-redux"
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { newRequest } from "../utils/newRequest";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { clearCart } from "../redux/cartSlice";
 
 const CheckOutForm = () => {
-    const {register,handleSubmit, formState:{errors,isSubmtting}} = useForm()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmtting },
+  } = useForm();
 
-    const {items} = useSelector(state => state.cart)
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-    const cartItems = items.map(item =>({
-        product : item.id,
-        quantity : item.quantity
-    }))
+  const { items } = useSelector((state) => state.cart);
 
-    // console.log(cartItems);
-    
+  const cartItems = items.map((item) => ({
+    product: item.id,
+    quantity: item.quantity,
+  }));
 
-    const onSubmit = data => {
-        console.log({...data,items:cartItems});
+  // console.log(cartItems);
+
+  const onSubmit = async (data) => {
+    const orderData = { ...data, items: cartItems };
+    try {
+      const response = await newRequest.post("/order/create/", orderData);
+      console.log(response.data);
+
+      if (orderData.payment_method === "esewa") {
+        navigate("/esewa",{state:{esewaData: response.data}});
+      } else {
+        navigate("/order/lists");
+      }
+      dispatch(clearCart());
+      toast.success("Order created Sucessfully.");
+    } catch (error) {
+      console.log(error);
     }
+  };
 
   return (
-     <div className="my-32 bg-white">
+    <div className="my-32 bg-white">
       <div className="max-w-lg mx-auto p-8 rounded-md border border-gray-200 shadow-sm">
         <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
           Checkout
@@ -32,7 +56,7 @@ const CheckOutForm = () => {
               Email
             </label>
             <input
-            {...register('email')}
+              {...register("email")}
               type="email"
               placeholder="you@example.com"
               className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring focus:ring-slate-300"
@@ -45,7 +69,7 @@ const CheckOutForm = () => {
               Contact Number
             </label>
             <input
-            {...register('contact_number')}
+              {...register("contact_number")}
               type="text"
               placeholder="123-456-7890"
               className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring focus:ring-slate-300"
@@ -58,7 +82,7 @@ const CheckOutForm = () => {
               Address
             </label>
             <textarea
-            {...register('address')}
+              {...register("address")}
               placeholder="123 Main Street, City, Country"
               className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring focus:ring-slate-300 resize-none"
               rows={3}
@@ -71,7 +95,7 @@ const CheckOutForm = () => {
               Payment Method
             </label>
             <select
-             {...register('payment_method')}
+              {...register("payment_method")}
               className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring focus:ring-slate-300"
             >
               <option value="cod">Cash on Delivery</option>
@@ -90,6 +114,6 @@ const CheckOutForm = () => {
         </form>
       </div>
     </div>
-  )
-}
-export default CheckOutForm
+  );
+};
+export default CheckOutForm;

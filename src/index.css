@@ -1,1 +1,7 @@
 @import "tailwindcss";
+
+
+
+input{
+    @apply block border border-slate-400 rounded-md px-4 py-2
+}

@@ -19,6 +19,8 @@ import ProductList from "./pages/adminpages/ProductList";
 import ProductForm from "./pages/adminpages/ProductForm";
 import UpdateProductForm from "./pages/adminpages/UpdateProductForm";
 import CheckOutForm from "./pages/CheckOutForm";
+import OrderList from "./pages/OrderList";
+import EsewaForm from "./pages/EsewaForm";
 
 const App = () => {
   return (
@@ -42,8 +44,12 @@ const App = () => {
           <Route element={<ProtectedRoute />}>
             <Route path="/cart" element={<CartPage />} />
           </Route>
-          <Route path="/checkout" element={<CheckOutForm />} />
+           <Route path="/checkout" element={<CheckOutForm />} />
+           <Route path="/order/lists" element={<OrderList />} />
+           <Route path="/esewa" element={<EsewaForm />} />
         </Route>
+
+        
 
         {/* admin layout */}
         <Route path="/dashboard" element={<AdminLayout />}>
