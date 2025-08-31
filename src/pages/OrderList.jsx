@@ -1,4 +1,5 @@
 import React from "react";
+import { useOrders } from "../api/fetchApi";
 
 const dummyOrders = [
   {
@@ -27,6 +28,9 @@ const dummyOrders = [
 ];
 
 const OrderList = () => {
+  const {data,isLoading,isError,error} = useOrders()
+
+  console.log(data);
   return (
     <div className="max-w-7xl mx-auto my-20">
       <h2 className="text-3xl font-bold mb-6 text-slate-700">Order List</h2>
@@ -44,7 +48,10 @@ const OrderList = () => {
             </tr>
           </thead>
           <tbody className="text-slate-600">
-            {dummyOrders.map((order) => (
+            {
+            isLoading ? "loading...":
+            isError ? <p>{error.message}</p>:
+            data.map((order) => (
               <tr key={order.id} className="hover:bg-slate-50 transition-colors duration-200">
                 <td className="px-6 py-4 border-b border-slate-200 font-medium">{order.id}</td>
                 <td className="px-6 py-4 border-b border-slate-200">
@@ -53,7 +60,7 @@ const OrderList = () => {
                 </td>
                 <td className="px-6 py-4 border-b border-slate-200">
                   {order.items.map((item) => (
-                    <div key={item.product_id} className="flex gap-2 items-center">
+                    <div key={item.product} className="flex gap-2 items-center">
                       <p className="font-medium">{item.product_name}</p>
                       <span className="text-sm text-slate-500">x Qty: {item.quantity}</span>
                     </div>

@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import { newRequest } from "../utils/newRequest";
 import { useQuery } from "@tanstack/react-query";
 
@@ -39,6 +40,26 @@ export const useProduct = (id) => {
             queryKey: ['product',id],
             queryFn: async () => {
               const response = await newRequest.get(`/products/${id}`)
+              return response.data
+            }
+          })
+    )
+}
+
+
+
+//fetch orders
+export const useOrders = () => {
+  const {user} = useSelector(state => state.auth)
+    return(
+        useQuery({
+            queryKey: ['orders'],
+            queryFn: async () => {
+              const response = await newRequest.get(`/order/lists/`,{
+                headers:{
+                     Authorization: `Bearer ${user?.access}`
+                }
+              })
               return response.data
             }
           })

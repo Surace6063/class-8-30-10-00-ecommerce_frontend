@@ -59,7 +59,7 @@ const EsewaForm = () => {
         type="text"
         id="success_url"
         name="success_url"
-        value="https://developer.esewa.com.np/success"
+        value={esewaData.success_url}
         required
       />
       <input

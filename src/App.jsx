@@ -21,6 +21,7 @@ import UpdateProductForm from "./pages/adminpages/UpdateProductForm";
 import CheckOutForm from "./pages/CheckOutForm";
 import OrderList from "./pages/OrderList";
 import EsewaForm from "./pages/EsewaForm";
+import EsewaSuccessPage from "./pages/EsewaSuccessPage";
 
 const App = () => {
   return (
@@ -47,6 +48,7 @@ const App = () => {
            <Route path="/checkout" element={<CheckOutForm />} />
            <Route path="/order/lists" element={<OrderList />} />
            <Route path="/esewa" element={<EsewaForm />} />
+           <Route path="/esewa/success/:id" element={<EsewaSuccessPage />} />
         </Route>
 
         
