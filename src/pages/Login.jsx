@@ -6,6 +6,7 @@ import { newRequest } from "../utils/newRequest";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { loginSucess } from "../redux/authSlice";
+import GoogleAuthButton from "../components/GoogleAuthButton";
 
 const Login = () => {
   const {register,handleSubmit, formState:{errors,isSubmitting}} = useForm({
@@ -81,6 +82,8 @@ const Login = () => {
           </Link>
         </p>
       </div>
+
+      <GoogleAuthButton />
     </div>
   );
 };
